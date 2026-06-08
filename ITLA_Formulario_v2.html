@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ITLA · Formulario de Respuestas — Taller de Indicadores</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1B2D6B;--navy-d:#0F1D4A;--navy-l:#2A3F8F;--orange:#F07C1A;--blue:#3AACE2;--blue-l:#EBF6FD;--gray:#F4F5F8;--dgray:#3A3A5A;--green:#1A6B3A;--white:#FFFFFF;--border:#DDE3F0;--shadow:rgba(27,45,107,0.10);--radius:14px}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',Arial,sans-serif;background:#ECEEF5;color:var(--dgray);min-height:100vh;line-height:1.6}
+.site-header{background:var(--navy-d);padding:0;position:sticky;top:0;z-index:200;box-shadow:0 4px 24px rgba(0,0,0,0.28)}
+.header-inner{padding:18px 28px 14px;display:flex;flex-direction:column;gap:3px}
+.badge-row{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.badge{background:var(--blue);color:white;font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:3px 8px;border-radius:4px}
+.badge-orange{background:var(--orange)}
+.header-title{font-family:'DM Serif Display',serif;font-size:21px;font-weight:400;color:white;line-height:1.25}
+.header-sub{font-size:12px;color:rgba(255,255,255,0.55);margin-top:2px}
+.progress-wrap{background:rgba(255,255,255,0.12);height:3px;margin-top:14px}
+.progress-bar{height:3px;background:linear-gradient(90deg,var(--blue),var(--orange));transition:width .5s;width:0%}
+.container{max-width:800px;margin:0 auto;padding:30px 18px 80px;display:flex;flex-direction:column;gap:26px}
+.card{background:white;border-radius:var(--radius);box-shadow:0 2px 16px var(--shadow);overflow:hidden;animation:fadeUp .4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.card-stripe{height:4px;background:linear-gradient(90deg,var(--blue),var(--navy))}
+.team-card .card-body{padding:22px 24px}
+.team-card h2{font-family:'DM Serif Display',serif;font-size:17px;color:var(--navy);margin-bottom:18px}
+.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.field-grid .field-full{grid-column:1/-1}
+.field{display:flex;flex-direction:column;gap:5px}
+.field label{font-size:11px;font-weight:600;color:var(--navy);letter-spacing:.4px;text-transform:uppercase}
+.field input,.field select{border:1.5px solid var(--border);border-radius:8px;padding:10px 13px;font-size:14px;font-family:'DM Sans',sans-serif;color:var(--dgray);background:var(--gray);transition:border-color .2s,box-shadow .2s;width:100%;-webkit-appearance:none}
+.field input:focus,.field select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(58,172,226,0.16);background:white}
+.field select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%233AACE2' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:32px}
+.case-block .case-header{background:var(--navy);padding:18px 24px;display:flex;flex-direction:column;gap:5px;position:relative;overflow:hidden}
+.case-block .case-header::before{content:'';position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:rgba(58,172,226,0.08)}
+.case-tag{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--orange);text-transform:uppercase}
+.case-title{font-family:'DM Serif Display',serif;font-size:19px;color:white;line-height:1.2}
+.case-body{padding:22px 24px;display:flex;flex-direction:column;gap:18px}
+.decision{border:1.5px solid var(--border);border-radius:10px;overflow:hidden}
+.decision-head{background:#FFF5EC;border-bottom:1.5px solid #F5D8BC;padding:9px 16px;font-size:10px;font-weight:700;color:var(--orange);letter-spacing:1.5px;text-transform:uppercase}
+.decision-q{padding:12px 16px;background:#FFFAF6;font-size:13.5px;color:var(--navy);font-weight:600;line-height:1.55;border-bottom:1.5px solid var(--border)}
+.decision-body{padding:16px;display:flex;flex-direction:column;gap:14px;background:white}
+.open-point{border:1.5px solid var(--border);border-radius:10px;overflow:hidden}
+.open-head{background:var(--blue-l);border-bottom:1.5px solid #C5E5F6;padding:9px 16px;font-size:10px;font-weight:700;color:var(--navy);letter-spacing:1.5px;text-transform:uppercase}
+.open-q{padding:12px 16px;background:#F8FBFF;font-size:13.5px;color:var(--navy);font-weight:600;line-height:1.55;border-bottom:1.5px solid var(--border)}
+.open-body{padding:16px;display:flex;flex-direction:column;gap:14px;background:white}
+.options-label{font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.4px;margin-bottom:6px}
+.options-grid{display:flex;flex-direction:column;gap:7px}
+.option-label{display:flex;align-items:flex-start;gap:11px;background:var(--gray);border:1.5px solid var(--border);border-radius:9px;padding:11px 14px;cursor:pointer;transition:border-color .18s,background .18s,transform .12s;font-size:13px;line-height:1.48;user-select:none}
+.option-label:hover{border-color:var(--blue);background:#EEF6FC;transform:translateX(2px)}
+.option-label input[type="radio"]{margin-top:2px;accent-color:var(--navy);width:16px;height:16px;flex-shrink:0;cursor:pointer}
+.option-label.selected{border-color:var(--navy);background:#EEF0FB}
+.option-label.selected span{color:var(--navy);font-weight:600}
+.textarea-wrap{display:flex;flex-direction:column;gap:5px}
+.textarea-wrap label{font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.4px}
+textarea{border:1.5px solid var(--border);border-radius:8px;padding:11px 13px;font-size:13px;font-family:'DM Sans',sans-serif;color:var(--dgray);background:var(--gray);resize:vertical;min-height:76px;transition:border-color .2s,box-shadow .2s;width:100%;line-height:1.55}
+textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(58,172,226,0.14);background:white}
+.char-count{font-size:10.5px;color:#bbb;text-align:right}
+.summary-block .sum-header{background:var(--navy);color:white;padding:16px 24px;font-family:'DM Serif Display',serif;font-size:18px;display:flex;align-items:center;gap:10px}
+table.summary{width:100%;border-collapse:collapse;font-size:12.5px}
+table.summary thead th{background:var(--gray);color:var(--navy);font-weight:700;padding:10px 14px;border-bottom:2px solid var(--border);text-align:left;font-size:11px;letter-spacing:.5px;text-transform:uppercase}
+table.summary tbody tr:nth-child(even) td{background:#F8FAFF}
+table.summary tbody td{padding:10px 14px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--dgray)}
+table.summary .case-col{font-weight:600;color:var(--navy);width:26%}
+table.summary select{border:1.5px solid var(--border);border-radius:6px;padding:5px 28px 5px 10px;font-size:12px;font-family:'DM Sans',sans-serif;background:var(--gray);-webkit-appearance:none;cursor:pointer;color:var(--dgray);width:100%}
+.summary-note{font-size:11px;color:#aaa;padding:10px 16px 14px;font-style:italic;text-align:center}
+.actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn{padding:14px 24px;border:none;border-radius:10px;font-size:14px;font-family:'DM Sans',sans-serif;font-weight:700;cursor:pointer;transition:transform .12s,box-shadow .2s;display:flex;align-items:center;justify-content:center;gap:8px;flex:1;min-width:150px}
+.btn:active{transform:scale(0.97)}
+.btn-submit{background:var(--green);color:white}.btn-submit:hover{box-shadow:0 6px 20px rgba(26,107,58,0.38)}
+.btn-primary{background:var(--navy);color:white}.btn-primary:hover{box-shadow:0 6px 20px rgba(27,45,107,0.35)}
+.btn-secondary{background:var(--orange);color:white}.btn-secondary:hover{box-shadow:0 6px 20px rgba(240,124,26,0.38)}
+.btn-outline{background:white;color:var(--navy);border:2px solid var(--border)}.btn-outline:hover{border-color:var(--navy)}
+.toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(14px);color:white;padding:13px 24px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 8px 28px rgba(0,0,0,0.2);opacity:0;transition:opacity .3s,transform .3s;pointer-events:none;white-space:nowrap;max-width:90vw;font-family:'DM Sans',sans-serif;background:var(--green)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.submitted-overlay{display:none;position:fixed;inset:0;background:rgba(15,77,42,0.97);z-index:1000;align-items:center;justify-content:center;flex-direction:column;gap:16px;color:white;font-family:'DM Sans',sans-serif}
+.submitted-overlay.show{display:flex}
+.submitted-overlay .big-check{font-size:64px}
+.submitted-overlay h2{font-family:'DM Serif Display',serif;font-size:28px}
+.submitted-overlay p{font-size:15px;opacity:.8;max-width:340px;text-align:center}
+.status-bar{background:#E8F5E9;border:1.5px solid #A5D6A7;border-radius:10px;padding:12px 18px;font-size:13px;color:#1A6B3A;display:flex;align-items:center;gap:10px}
+.status-bar.error{background:#FFEBEE;border-color:#FFCDD2;color:#9B3333}
+footer{text-align:center;font-size:11px;color:#b0b4c8;padding:0 16px 40px;line-height:1.7}
+footer span{color:var(--orange)}
+@media(max-width:600px){.field-grid{grid-template-columns:1fr}.field-grid .field-full{grid-column:1}.header-title{font-size:17px}}
+@media print{body{background:white}.site-header{position:static;box-shadow:none}.actions,.progress-wrap,.toast{display:none!important}.container{padding:10px;gap:16px}.card{box-shadow:none;border:1px solid var(--border)}}
+</style>
+</head>
+<body>
+
+<div class="submitted-overlay" id="submittedOverlay">
+  <div class="big-check">✅</div>
+  <h2>¡Respuestas enviadas!</h2>
+  <p>Las respuestas de tu equipo quedaron registradas. El facilitador puede verlas en tiempo real.</p>
+  <button class="btn btn-outline" style="margin-top:8px;color:white;border-color:rgba(255,255,255,0.4);min-width:auto;flex:none" onclick="document.getElementById('submittedOverlay').classList.remove('show')">Cerrar</button>
+</div>
+
+<div class="site-header">
+  <div class="header-inner">
+    <div class="badge-row">
+      <span class="badge">LABPP · MINPRE</span>
+      <span class="badge badge-orange">ITLA · 2025</span>
+    </div>
+    <div class="header-title">Taller: Indicadores, Monitoreo y Generación de Evidencia</div>
+    <div class="header-sub">Instituto Tecnológico de las Américas &nbsp;·&nbsp; República Dominicana</div>
+    <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <div id="statusBar" class="status-bar" style="display:none"></div>
+
+  <div class="card team-card">
+    <div class="card-stripe"></div>
+    <div class="card-body">
+      <h2>📋 Datos del equipo</h2>
+      <div class="field-grid">
+        <div class="field"><label for="mesa">Mesa / Equipo</label><input type="text" id="mesa" placeholder="Ej: Mesa 3 — Azul" autocomplete="off"></div>
+        <div class="field"><label for="relator">Relator/a</label><input type="text" id="relator" placeholder="Nombre completo" autocomplete="off"></div>
+        <div class="field field-full"><label for="integrantes">Integrantes</label><input type="text" id="integrantes" placeholder="Nombres separados por coma" autocomplete="off"></div>
+        <div class="field field-full">
+          <label for="carrera">Área / Carrera</label>
+          <select id="carrera">
+            <option value="">Selecciona una opción…</option>
+            <option>Desarrollo de Software</option>
+            <option>Redes y Telecomunicaciones</option>
+            <option>Electricidad Industrial</option>
+            <option>Mecatrónica</option>
+            <option>Administración de Empresas</option>
+            <option>Contabilidad</option>
+            <option>Otra carrera / área administrativa</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CASO 1 -->
+  <div class="card case-block">
+    <div class="case-header"><div class="case-tag">Caso 1</div><div class="case-title">El Estudiante en Riesgo — Carlos</div></div>
+    <div class="case-body">
+      <div class="decision">
+        <div class="decision-head">Punto de Decisión 1 · Primeras semanas críticas</div>
+        <div class="decision-q">¿Qué acción tendría mayor impacto para retener a Carlos en el ITLA?</div>
+        <div class="decision-body">
+          <div><div class="options-label">Opción consensuada:</div>
+          <div class="options-grid">
+            <label class="option-label"><input type="radio" name="c1p1" value="A"><span>A. Apoyo económico de emergencia (bono de alimentación o transporte)</span></label>
+            <label class="option-label"><input type="radio" name="c1p1" value="B"><span>B. Tutoría académica intensiva y recuperación de contenidos</span></label>
+            <label class="option-label"><input type="radio" name="c1p1" value="C"><span>C. Ampliación del horario de los laboratorios de cómputo para estudiantes en riesgo</span></label>
+            <label class="option-label"><input type="radio" name="c1p1" value="D"><span>D. Alerta temprana institucional: activar protocolo con coordinación académica, bienestar estudiantil y dirección de carrera</span></label>
+          </div></div>
+          <div class="textarea-wrap"><label for="c1p1-arg">Argumentos del equipo:</label><textarea id="c1p1-arg" placeholder="Expliquen por qué escogieron esta opción…" rows="3" oninput="countChars(this,'c1p1-cnt')"></textarea><div class="char-count" id="c1p1-cnt">0 caracteres</div></div>
+          <div class="textarea-wrap"><label for="c1p1-dis">Puntos de desacuerdo:</label><textarea id="c1p1-dis" placeholder="¿Alguien argumentó a favor de otra opción?" rows="2" oninput="countChars(this,'c1p1-dcnt')"></textarea><div class="char-count" id="c1p1-dcnt">0 caracteres</div></div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="decision-head">Punto de Decisión 2 · Datos en conflicto</div>
+        <div class="decision-q">El coordinador dice que Carlos "no aparece en riesgo" en el sistema, pero la tutora señala señales claras. ¿Cuál dato tienen más en cuenta?</div>
+        <div class="decision-body">
+          <div><div class="options-label">Opción consensuada:</div>
+          <div class="options-grid">
+            <label class="option-label"><input type="radio" name="c1p2" value="A"><span>A. El sistema académico oficial — los datos cuantitativos son más confiables</span></label>
+            <label class="option-label"><input type="radio" name="c1p2" value="B"><span>B. La percepción de la tutora — el conocimiento cualitativo del docente es más sensible al riesgo real</span></label>
+            <label class="option-label"><input type="radio" name="c1p2" value="C"><span>C. Ambas fuentes — el indicador de riesgo debe triangular dato cuantitativo y cualitativo</span></label>
+            <label class="option-label"><input type="radio" name="c1p2" value="D"><span>D. Ninguna — se necesita una nueva herramienta de diagnóstico</span></label>
+          </div></div>
+          <div class="textarea-wrap"><label for="c1p2-arg">Argumentos del equipo:</label><textarea id="c1p2-arg" placeholder="¿Por qué prevalece esa fuente de datos?" rows="3" oninput="countChars(this,'c1p2-cnt')"></textarea><div class="char-count" id="c1p2-cnt">0 caracteres</div></div>
+          <div class="textarea-wrap"><label for="c1p2-pro">¿Qué indicador propondrían crear?</label><textarea id="c1p2-pro" placeholder="Descripción del indicador ideal…" rows="2" oninput="countChars(this,'c1p2-pcnt')"></textarea><div class="char-count" id="c1p2-pcnt">0 caracteres</div></div>
+          <div class="textarea-wrap"><label for="c1p2-dis">Puntos de desacuerdo:</label><textarea id="c1p2-dis" placeholder="¿Hubo debate sobre qué dato es más confiable?" rows="2" oninput="countChars(this,'c1p2-dcnt')"></textarea><div class="char-count" id="c1p2-dcnt">0 caracteres</div></div>
+        </div>
+      </div>
+      <div class="decision">
+        <div class="decision-head">Punto de Decisión 3 · Evidencia contradictoria</div>
+        <div class="decision-q">El sistema reporta 18% de deserción; la encuesta revela 31%. ¿Qué debería hacerse?</div>
+        <div class="decision-body">
+          <div><div class="options-label">Opción consensuada:</div>
+          <div class="options-grid">
+            <label class="option-label"><input type="radio" name="c1p3" value="A"><span>A. Confiar solo en los registros del sistema académico (dato oficial)</span></label>
+            <label class="option-label"><input type="radio" name="c1p3" value="B"><span>B. Confiar solo en la encuesta de bienestar estudiantil</span></label>
+            <label class="option-label"><input type="radio" name="c1p3" value="C"><span>C. Pausar decisiones hasta depurar completamente los datos</span></label>
+            <label class="option-label"><input type="radio" name="c1p3" value="D"><span>D. Analizar y triangular ambas fuentes e identificar causas de la diferencia</span></label>
+          </div></div>
+          <div class="textarea-wrap"><label for="c1p3-arg">Argumentos del equipo:</label><textarea id="c1p3-arg" placeholder="¿Qué explicaría la diferencia entre ambas fuentes?" rows="3" oninput="countChars(this,'c1p3-cnt')"></textarea><div class="char-count" id="c1p3-cnt">0 caracteres</div></div>
+          <div class="textarea-wrap"><label for="c1p3-dis">Puntos de desacuerdo:</label><textarea id="c1p3-dis" placeholder="¿Alguien argumentó a favor de confiar en un solo dato?" rows="2" oninput="countChars(this,'c1p3-dcnt')"></textarea><div class="char-count" id="c1p3-dcnt">0 caracteres</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CASO 2 -->
+  <div class="card case-block">
+    <div class="case-header"><div class="case-tag">Caso 2</div><div class="case-title">El Expediente Incompleto — Yarilis</div></div>
+    <div class="case-body">
+      <div class="open-point">
+        <div class="open-head">Punto de Decisión</div>
+        <div class="open-q">¿El problema de Yarilis es "administrativo" o de "exclusión y equidad en el acceso"? ¿Qué dato o evidencia necesitarían?</div>
+        <div class="open-body">
+          <div><div class="options-label">Posición del equipo:</div>
+          <div class="options-grid">
+            <label class="option-label"><input type="radio" name="c2pos" value="administrativo"><span>Es principalmente un problema administrativo — aplicar la norma y pedir los documentos</span></label>
+            <label class="option-label"><input type="radio" name="c2pos" value="equidad"><span>Es principalmente un problema de equidad — la norma excluye a quienes más lo necesitan</span></label>
+            <label class="option-label"><input type="radio" name="c2pos" value="ambos"><span>Es ambas cosas — se necesita un protocolo especial que atienda las dos dimensiones</span></label>
+          </div></div>
+          <div class="textarea-wrap"><label for="c2-evidencia">¿Qué evidencia o dato usarían?</label><textarea id="c2-evidencia" placeholder="¿Cuántos casos como el de Yarilis tiene el ITLA?" rows="3" oninput="countChars(this,'c2-ecnt')"></textarea><div class="char-count" id="c2-ecnt">0 caracteres</div></div>
+          <div class="textarea-wrap"><label for="c2-recomendacion">¿Qué recomendarían?</label><textarea id="c2-recomendacion" placeholder="Recomendación concreta del equipo…" rows="3" oninput="countChars(this,'c2-rcnt')"></textarea><div class="char-count" id="c2-rcnt">0 caracteres</div></div>
+          <div class="textarea-wrap"><label for="c2-dis">Puntos de desacuerdo:</label><textarea id="c2-dis" placeholder="¿Hubo posiciones divididas?" rows="2" oninput="countChars(this,'c2-dcnt')"></textarea><div class="char-count" id="c2-dcnt">0 caracteres</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CASO 3 -->
+  <div class="card case-block">
+    <div class="case-header"><div class="case-tag">Caso 3</div><div class="case-title">El Dilema del Trabajo y el Estudio — Miguel</div></div>
+    <div class="case-body">
+      <div class="decision">
+        <div class="decision-head">Punto de Decisión</div>
+        <div class="decision-q">¿Qué política propondría el equipo para mejorar resultados sin obligar a los estudiantes a dejar de trabajar?</div>
+        <div class="decision-body">
+          <div><div class="options-label">Opción consensuada:</div>
+          <div class="options-grid">
+            <label class="option-label"><input type="radio" name="c3" value="A"><span>A. Eliminar el turno vespertino y concentrar recursos en el turno matutino</span></label>
+            <label class="option-label"><input type="radio" name="c3" value="B"><span>B. Crear un "Bono de Permanencia" condicionado a asistencia y aprobación</span></label>
+            <label class="option-label"><input type="radio" name="c3" value="C"><span>C. Rediseñar la modalidad del turno vespertino: presencia reducida (3 días) + recursos asíncronos</span></label>
+            <label class="option-label"><input type="radio" name="c3" value="D"><span>D. Alianzas con empresas empleadoras para crear esquemas de horario flexible</span></label>
+          </div></div>
+          <div class="textarea-wrap"><label for="c3-arg">Argumentos del equipo:</label><textarea id="c3-arg" placeholder="¿Qué datos sustentan su elección?" rows="4" oninput="countChars(this,'c3-cnt')"></textarea><div class="char-count" id="c3-cnt">0 caracteres</div></div>
+          <div class="textarea-wrap"><label for="c3-dis">Puntos de desacuerdo:</label><textarea id="c3-dis" placeholder="¿Qué argumento fue el más difícil de rebatir?" rows="2" oninput="countChars(this,'c3-dcnt')"></textarea><div class="char-count" id="c3-dcnt">0 caracteres</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CASO 4 -->
+  <div class="card case-block">
+    <div class="case-header"><div class="case-tag">Caso 4</div><div class="case-title">La Brecha Digital Interna — Virtualización ITLA</div></div>
+    <div class="case-body">
+      <div class="decision">
+        <div class="decision-head">Punto de Decisión</div>
+        <div class="decision-q">¿Debería el ITLA implementar la modalidad virtual/híbrida de forma uniforme, o diseñar una estrategia diferenciada según conectividad?</div>
+        <div class="decision-body">
+          <div><div class="options-label">Opción consensuada:</div>
+          <div class="options-grid">
+            <label class="option-label"><input type="radio" name="c4" value="A"><span>A. Implementar la virtualización de forma uniforme para todos los estudiantes</span></label>
+            <label class="option-label"><input type="radio" name="c4" value="B"><span>B. Posponer la virtualización hasta que el 80% de los estudiantes tenga acceso adecuado</span></label>
+            <label class="option-label"><input type="radio" name="c4" value="C"><span>C. Implementar virtualización solo para grupos con conectividad confirmada; presencial para el resto</span></label>
+            <label class="option-label"><input type="radio" name="c4" value="D"><span>D. Estrategia diferenciada: puntos de acceso, horario ampliado y contenidos de bajo consumo de datos</span></label>
+          </div></div>
+          <div class="textarea-wrap"><label for="c4-arg">Argumentos del equipo:</label><textarea id="c4-arg" placeholder="¿Qué datos del caso sustentan su elección?" rows="4" oninput="countChars(this,'c4-cnt')"></textarea><div class="char-count" id="c4-cnt">0 caracteres</div></div>
+          <div class="textarea-wrap"><label for="c4-datos">¿Qué datos adicionales necesitarían?</label><textarea id="c4-datos" placeholder="Lista los datos o evidencias que harían falta…" rows="3" oninput="countChars(this,'c4-dcnt2')"></textarea><div class="char-count" id="c4-dcnt2">0 caracteres</div></div>
+          <div class="textarea-wrap"><label for="c4-dis">Puntos de desacuerdo:</label><textarea id="c4-dis" placeholder="¿Qué postura fue más difícil de consensuar?" rows="2" oninput="countChars(this,'c4-dcnt')"></textarea><div class="char-count" id="c4-dcnt">0 caracteres</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLA RESUMEN -->
+  <div class="card summary-block">
+    <div class="sum-header">📊 Tabla resumen del equipo</div>
+    <table class="summary">
+      <thead><tr><th>Caso / Decisión</th><th>Opción elegida</th><th>¿Consenso fácil?</th></tr></thead>
+      <tbody>
+        <tr><td class="case-col">Caso 1 — P.D. 1</td><td id="sum-c1p1">—</td><td><select id="con-c1p1" onchange="updateSummary()"><option value="">—</option><option>Sí, rápido</option><option>Con debate</option><option>Difícil</option></select></td></tr>
+        <tr><td class="case-col">Caso 1 — P.D. 2</td><td id="sum-c1p2">—</td><td><select id="con-c1p2" onchange="updateSummary()"><option value="">—</option><option>Sí, rápido</option><option>Con debate</option><option>Difícil</option></select></td></tr>
+        <tr><td class="case-col">Caso 1 — P.D. 3</td><td id="sum-c1p3">—</td><td><select id="con-c1p3" onchange="updateSummary()"><option value="">—</option><option>Sí, rápido</option><option>Con debate</option><option>Difícil</option></select></td></tr>
+        <tr><td class="case-col">Caso 2</td><td id="sum-c2">—</td><td><select id="con-c2" onchange="updateSummary()"><option value="">—</option><option>Sí, rápido</option><option>Con debate</option><option>Difícil</option></select></td></tr>
+        <tr><td class="case-col">Caso 3</td><td id="sum-c3">—</td><td><select id="con-c3" onchange="updateSummary()"><option value="">—</option><option>Sí, rápido</option><option>Con debate</option><option>Difícil</option></select></td></tr>
+        <tr><td class="case-col">Caso 4</td><td id="sum-c4">—</td><td><select id="con-c4" onchange="updateSummary()"><option value="">—</option><option>Sí, rápido</option><option>Con debate</option><option>Difícil</option></select></td></tr>
+      </tbody>
+    </table>
+    <div class="summary-note">La tabla se actualiza automáticamente al seleccionar las opciones de cada caso.</div>
+  </div>
+
+  <!-- REFLEXIÓN FINAL -->
+  <div class="card case-block" style="--case-color:var(--navy-l)">
+    <div class="case-header" style="background:linear-gradient(135deg,var(--navy-d),var(--navy-l))">
+      <div class="case-tag">Reflexión Final</div>
+      <div class="case-title">Aprendizajes del equipo</div>
+    </div>
+    <div class="case-body">
+      <div class="textarea-wrap"><label for="ref1">¿Cuál fue el caso más difícil de consensuar y por qué?</label><textarea id="ref1" placeholder="Reflexionen sobre el proceso de debate…" rows="3" oninput="countChars(this,'ref1-cnt')"></textarea><div class="char-count" id="ref1-cnt">0 caracteres</div></div>
+      <div class="textarea-wrap"><label for="ref2">¿Qué dato o evidencia cambió la perspectiva de alguien en el equipo?</label><textarea id="ref2" placeholder="¿Hubo algún dato que sorprendió o que hizo cambiar de posición?" rows="3" oninput="countChars(this,'ref2-cnt')"></textarea><div class="char-count" id="ref2-cnt">0 caracteres</div></div>
+      <div class="textarea-wrap"><label for="ref3">¿Qué indicador le falta al ITLA para tomar mejores decisiones? (propuesta libre)</label><textarea id="ref3" placeholder="¿Qué deberían medir que hoy no se mide?" rows="3" oninput="countChars(this,'ref3-cnt')"></textarea><div class="char-count" id="ref3-cnt">0 caracteres</div></div>
+    </div>
+  </div>
+
+  <!-- BOTONES -->
+  <div class="actions">
+    <button class="btn btn-submit" onclick="submitToFirebase()">📤 Enviar al facilitador</button>
+    <button class="btn btn-primary" onclick="saveLocal()">💾 Guardar borrador</button>
+    <button class="btn btn-secondary" onclick="window.print()">🖨️ Imprimir / PDF</button>
+    <button class="btn btn-outline" onclick="clearForm()">🗑️ Limpiar</button>
+  </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+<footer>LABPP · Laboratorio de Políticas Públicas MINPRE &nbsp;·&nbsp; Instituto Tecnológico de las Américas · ITLA &nbsp;·&nbsp; <span>República Dominicana · 2025</span></footer>
+
+<!-- FIREBASE -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDEwrLB6qtY1a_3vYO76irLsxdaGaZzKx8",
+  authDomain: "itla-taller-2026.firebaseapp.com",
+  databaseURL: "https://itla-taller-2026-default-rtdb.firebaseio.com",
+  projectId: "itla-taller-2026",
+  storageBucket: "itla-taller-2026.firebasestorage.app",
+  messagingSenderId: "237266435845",
+  appId: "1:237266435845:web:fd87be6d3569c34933016c"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+function collectData() {
+  const fields = ['mesa','integrantes','relator','carrera',
+    'c1p1-arg','c1p1-dis','c1p2-arg','c1p2-pro','c1p2-dis',
+    'c1p3-arg','c1p3-dis','c2-evidencia','c2-recomendacion','c2-dis',
+    'c3-arg','c3-dis','c4-arg','c4-datos','c4-dis','ref1','ref2','ref3',
+    'con-c1p1','con-c1p2','con-c1p3','con-c2','con-c3','con-c4'];
+  const radios = ['c1p1','c1p2','c1p3','c2pos','c3','c4'];
+  const data = { timestamp: new Date().toISOString() };
+  fields.forEach(id => { const el = document.getElementById(id); if(el) data[id] = el.value || ''; });
+  radios.forEach(n => { const r = document.querySelector(`input[name="${n}"]:checked`); data['radio_'+n] = r ? r.value : ''; });
+  return data;
+}
+
+window.submitToFirebase = async function() {
+  const mesa = document.getElementById('mesa').value.trim();
+  if (!mesa) { showToast('⚠️ Escribe el nombre de la mesa antes de enviar', 'warn'); return; }
+  showToast('📤 Enviando respuestas…', 'info');
+  try {
+    const data = collectData();
+    const key = mesa.replace(/[^a-zA-Z0-9\-_]/g, '_');
+    await set(ref(db, 'respuestas/' + key), data);
+    localStorage.setItem('itla_taller_v3', JSON.stringify(data));
+    document.getElementById('submittedOverlay').classList.add('show');
+    showToast('✅ ¡Respuestas enviadas exitosamente!');
+  } catch(e) {
+    showToast('❌ Error al enviar. Verifica tu conexión.', 'error');
+  }
+};
+
+// Inicialización
+window.addEventListener('load', () => { loadLocal(); updateProgress(); });
+</script>
+
+<script>
+function countChars(el,id){document.getElementById(id).textContent=el.value.length+' caracteres';updateProgress()}
+document.querySelectorAll('.option-label input[type="radio"]').forEach(r=>{
+  r.addEventListener('change',function(){
+    document.querySelectorAll(`input[name="${this.name}"]`).forEach(x=>x.closest('.option-label').classList.remove('selected'));
+    this.closest('.option-label').classList.add('selected');
+    updateSummary();updateProgress();
+  });
+});
+function getChecked(n){const r=document.querySelector(`input[name="${n}"]:checked`);return r?r.value:'—'}
+function updateSummary(){
+  ['c1p1','c1p2','c1p3','c2pos','c3','c4'].forEach((n,i)=>{
+    const ids=['sum-c1p1','sum-c1p2','sum-c1p3','sum-c2','sum-c3','sum-c4'];
+    document.getElementById(ids[i]).textContent=getChecked(n);
+  });
+}
+function updateProgress(){
+  const radios=['c1p1','c1p2','c1p3','c2pos','c3','c4'];
+  const texts=['mesa','integrantes','relator'];
+  let filled=0,total=radios.length+texts.length;
+  radios.forEach(n=>{if(getChecked(n)!=='—')filled++});
+  texts.forEach(id=>{if(document.getElementById(id).value.trim())filled++});
+  document.getElementById('progressBar').style.width=Math.round(filled/total*100)+'%';
+}
+document.querySelectorAll('input[type="text"],select').forEach(el=>{
+  el.addEventListener('input',updateProgress);el.addEventListener('change',updateProgress);
+});
+function saveLocal(){
+  const fields=['mesa','integrantes','relator','carrera','c1p1-arg','c1p1-dis','c1p2-arg','c1p2-pro','c1p2-dis','c1p3-arg','c1p3-dis','c2-evidencia','c2-recomendacion','c2-dis','c3-arg','c3-dis','c4-arg','c4-datos','c4-dis','ref1','ref2','ref3','con-c1p1','con-c1p2','con-c1p3','con-c2','con-c3','con-c4'];
+  const radios=['c1p1','c1p2','c1p3','c2pos','c3','c4'];
+  const data={};
+  fields.forEach(id=>{const el=document.getElementById(id);if(el)data[id]=el.value});
+  radios.forEach(n=>{data['radio_'+n]=getChecked(n)});
+  localStorage.setItem('itla_taller_v3',JSON.stringify(data));
+  showToast('💾 Borrador guardado');
+}
+function loadLocal(){
+  const raw=localStorage.getItem('itla_taller_v3');if(!raw)return;
+  try{
+    const data=JSON.parse(raw);
+    ['mesa','integrantes','relator','carrera','c1p1-arg','c1p1-dis','c1p2-arg','c1p2-pro','c1p2-dis','c1p3-arg','c1p3-dis','c2-evidencia','c2-recomendacion','c2-dis','c3-arg','c3-dis','c4-arg','c4-datos','c4-dis','ref1','ref2','ref3','con-c1p1','con-c1p2','con-c1p3','con-c2','con-c3','con-c4'].forEach(id=>{const el=document.getElementById(id);if(el&&data[id])el.value=data[id]});
+    ['c1p1','c1p2','c1p3','c2pos','c3','c4'].forEach(n=>{const val=data['radio_'+n];if(val&&val!=='—'){const r=document.querySelector(`input[name="${n}"][value="${val}"]`);if(r){r.checked=true;r.closest('.option-label').classList.add('selected')}}});
+    document.querySelectorAll('textarea').forEach(ta=>{const el=document.getElementById(ta.id+'-cnt');if(el)el.textContent=ta.value.length+' caracteres'});
+    updateSummary();updateProgress();
+  }catch(e){}
+}
+function clearForm(){
+  if(!confirm('¿Limpiar todas las respuestas?'))return;
+  localStorage.removeItem('itla_taller_v3');
+  document.querySelectorAll('input[type="text"],textarea').forEach(el=>el.value='');
+  document.querySelectorAll('select').forEach(el=>el.selectedIndex=0);
+  document.querySelectorAll('.option-label').forEach(l=>l.classList.remove('selected'));
+  document.querySelectorAll('input[type="radio"]').forEach(r=>r.checked=false);
+  document.querySelectorAll('.char-count').forEach(el=>el.textContent='0 caracteres');
+  updateSummary();updateProgress();
+  showToast('🗑️ Formulario limpiado');
+}
+function showToast(msg,type){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=type==='error'?'#9B3333':type==='warn'?'#8A5000':type==='info'?'#1B2D6B':'var(--green)';
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);
+}
+setInterval(saveLocal,30000);
+</script>
+</body>
+</html>
